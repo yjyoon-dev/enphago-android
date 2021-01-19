@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Enphago</string>
+    <string name="game_start">게임 시작</string>
+    <string name="setting">전적 기록</string>
+    <string name="exit">게임 종료</string>
+    <string name="chain">잇기</string>
+    <string name="please_input_word">단어를 입력해주세요</string>
+    <string name="enphago">Enphago</string>
+    <string name="subTitle">한글 끝말잇기 AI</string>
+    <string name="copyright">Copyright (c) YJYOON 2021 All rights reserved.</string>
+    <string name="testText">테스트 용 텍스트 입니다</string>
+    <string name="continueGame">이어 하기</string>
 </resources>
