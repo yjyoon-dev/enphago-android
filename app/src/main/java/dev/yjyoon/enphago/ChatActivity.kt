@@ -1,69 +1,47 @@
 package dev.yjyoon.enphago
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlin.concurrent.thread
+import kotlinx.coroutines.*
 
 class ChatActivity : AppCompatActivity() {
-    var turn: Int = 0
-    var checkWord = CheckWord()
-    val context = this
+    private var turn: Int = 0
+    private var checkWord = CheckWord()
+    private var context = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        getSupportActionBar()?.setTitle("게임 진행중 - ${turn}턴")
+        supportActionBar?.title = "게임 진행중 - ${turn}턴"
 
         val adapter = ChatAdapter()
         chatRecyclerView.adapter = adapter
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
 
         ansBtn.setOnClickListener {
-            val message = userInput.text.toString()
-            if(message.isNotEmpty()) {
+            val word = userInput.text.toString()
+
+            CoroutineScope(Dispatchers.Main).launch{
                 userInput.setText("")
+                val checkResult = checkWord.check(word)
 
-                var checkResult = true
-
-                CoroutineScope(Dispatchers.IO).launch {
-                    checkResult = checkWord.isValid(message)
-
-                    if(checkResult){
-                        adapter.chatList.add(Chat(Chat.USER,message))
-                        turn += 1
-
-                        CoroutineScope(Dispatchers.Main).launch {
-                            adapter.notifyDataSetChanged()
-                            getSupportActionBar()?.setTitle("게임 진행중 - ${turn}턴")
-                            ansBtn.setEnabled(false)
-                        }
-
-                        Thread.sleep(500)
-                        adapter.chatList.add(Chat(Chat.ENPHAGO, message))
-
-                        CoroutineScope(Dispatchers.Main).launch {
-                            adapter.notifyDataSetChanged()
-                            ansBtn.setEnabled(true)
-                        }
+                when (checkResult) {
+                    CheckWord.OK -> {
+                        adapter.chatList.add(Chat(Chat.USER,word))
+                        adapter.notifyDataSetChanged()
+                        turn+=1
+                        supportActionBar?.title = "게임 진행중 - ${turn}턴"
                     }
-                    else{
-                        CoroutineScope(Dispatchers.Main).launch{
-                            Toast.makeText(context,"유효하지 않은 단어입니다",Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                    CheckWord.BLANK_INPUT -> Toast.makeText(context,"단어를 입력해주세요",Toast.LENGTH_SHORT).show()
+                    CheckWord.TOO_SHORT -> Toast.makeText(context,"단어가 너무 짧습니다",Toast.LENGTH_SHORT).show()
+                    CheckWord.ALREADY_USED -> Toast.makeText(context,"이미 사용된 단어입니다",Toast.LENGTH_SHORT).show()
+                    CheckWord.INVALID_WORD -> Toast.makeText(context,"명사가 아니거나 존재하지 않는 단어입니다",Toast.LENGTH_SHORT).show()
                 }
-            }
-            else{
-                Toast.makeText(this,"단어를 입력해주세요",Toast.LENGTH_SHORT).show()
             }
         }
     }
