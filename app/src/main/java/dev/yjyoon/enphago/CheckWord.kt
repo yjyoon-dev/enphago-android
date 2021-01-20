@@ -19,7 +19,9 @@ class CheckWord {
         const val INVALID_WORD = 4
         const val INTERNET_DISCONNECTED = 5
     }
+
     private var usedWordSet = mutableSetOf<String>()
+
     private val baseUrl = "https://stdict.korean.go.kr/api/search.do?certkey_no=2231&key="
     private val apiKey = "DD142E025E13B1072F2AF6E6C5D0A602"
     private val opt = "&type_search=search&advanced=y&pos=1,2,3&q="
@@ -42,7 +44,9 @@ class CheckWord {
                 val total = nodeList.item(0) as Element
                 total.textContent.toString() != "0"
             }.await()
+
             if(!isValid) return INVALID_WORD
+
         } catch (e: Exception) {
             return INTERNET_DISCONNECTED
         }

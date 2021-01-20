@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.coroutines.*
 
 class ChatActivity : AppCompatActivity() {
     private var turn: Int = 0
-    private var checkWord = CheckWord()
-    private var context = this
+    private val checkWord = CheckWord()
+    private val context = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,13 +25,15 @@ class ChatActivity : AppCompatActivity() {
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
 
         ansBtn.setOnClickListener {
+            ansBtn.isEnabled = false
+            wordCheckProgressBar.isVisible = true
+
             val word = userInput.text.toString()
+            userInput.setText("")
 
             CoroutineScope(Dispatchers.Main).launch{
-                userInput.setText("")
-                val checkResult = checkWord.check(word)
 
-                when (checkResult) {
+                when (checkWord.check(word)) {
                     CheckWord.OK -> {
                         adapter.chatList.add(Chat(Chat.USER,word))
                         adapter.notifyDataSetChanged()
@@ -43,6 +46,9 @@ class ChatActivity : AppCompatActivity() {
                     CheckWord.INVALID_WORD -> Toast.makeText(context,"명사가 아니거나 존재하지 않는 단어입니다",Toast.LENGTH_SHORT).show()
                     CheckWord.INTERNET_DISCONNECTED -> Toast.makeText(context,"네트워크 연결 상태를 확인해주세요",Toast.LENGTH_SHORT).show()
                 }
+
+                ansBtn.isEnabled = true
+                wordCheckProgressBar.isVisible = false
             }
         }
     }
