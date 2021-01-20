@@ -9,5 +9,6 @@
     <string name="subTitle">한글 끝말잇기 AI</string>
     <string name="copyright">Copyright (c) YJYOON 2021 All rights reserved.</string>
     <string name="testText">테스트 용 텍스트 입니다</string>
-    <string name="continueGame">이어 하기</string>
+    <string name="game_info">게임 설명</string>
+    <string name="version">v1.0.0 for Android</string>
 </resources>

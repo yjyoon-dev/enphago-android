@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="80dp"
     android:background="@color/blue_200">
 
     <ImageView
         android:id="@+id/userImg"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="57dp"
+        android:layout_height="57dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
@@ -21,12 +21,10 @@
     <TextView
         android:id="@+id/userText"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="30dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
         android:background="@color/blue_500"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="sans-serif-medium"
         android:gravity="right"
         android:text="  테스트 용 텍스트 입니다  "
         android:textColor="@color/white"
