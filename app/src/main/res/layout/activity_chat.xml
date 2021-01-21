@@ -50,6 +50,7 @@
         android:layout_height="wrap_content"
         android:indeterminateTint="#FFFFFF"
         android:progressTint="#FFFFFF"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/chatRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -49,7 +49,14 @@ class ChatActivity : AppCompatActivity() {
 
                 ansBtn.isEnabled = true
                 wordCheckProgressBar.isVisible = false
+
+                chatRecyclerView.scrollToPosition(adapter.chatList.size-1)
             }
+
+            adapter.chatList.add(Chat(Chat.ENPHAGO,word))
+            adapter.notifyDataSetChanged()
+
+            chatRecyclerView.scrollToPosition(adapter.chatList.size-1)
         }
     }
 }
