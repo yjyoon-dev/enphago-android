@@ -51,6 +51,7 @@ class ChatActivity : AppCompatActivity() {
                 wordCheckProgressBar.isVisible = false
 
                 chatRecyclerView.scrollToPosition(adapter.chatList.size-1)
+
             }
 
             adapter.chatList.add(Chat(Chat.ENPHAGO,word))
