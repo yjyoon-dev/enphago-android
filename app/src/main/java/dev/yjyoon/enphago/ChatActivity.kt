@@ -1,13 +1,16 @@
 package dev.yjyoon.enphago
 
+import android.content.res.AssetManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.coroutines.*
+import java.io.InputStream
 
 class ChatActivity : AppCompatActivity() {
     private var turn: Int = 0
@@ -52,12 +55,22 @@ class ChatActivity : AppCompatActivity() {
 
                 chatRecyclerView.scrollToPosition(adapter.chatList.size-1)
 
+                val roomWordHelper = Room.databaseBuilder(context, RoomWordHelper::class.java, "word")
+                    .allowMainThreadQueries()
+                    .build()
+
+                val list = roomWordHelper.roomWordDAO().getAll()
+                for(word in list){
+                    Log.d("xx",word.word.toString())
+                }
+                val candList: List<Word> = roomWordHelper.roomWordDAO().getWord(word.substring(word.length-1 until word.length))
+                val enphagoWord = candList[0].word.toString()
+
+                adapter.chatList.add(Chat(Chat.ENPHAGO,enphagoWord))
+                adapter.notifyDataSetChanged()
+
+                chatRecyclerView.scrollToPosition(adapter.chatList.size-1)
             }
-
-            adapter.chatList.add(Chat(Chat.ENPHAGO,word))
-            adapter.notifyDataSetChanged()
-
-            chatRecyclerView.scrollToPosition(adapter.chatList.size-1)
         }
     }
 }
