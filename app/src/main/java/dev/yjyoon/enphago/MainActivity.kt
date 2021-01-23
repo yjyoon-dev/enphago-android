@@ -19,8 +19,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        getSupportActionBar()!!.hide()
-
         CoroutineScope(Dispatchers.Default).launch{
             while(true){
                 Thread.sleep(15)

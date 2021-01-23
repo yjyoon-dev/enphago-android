@@ -5,12 +5,14 @@ import android.content.res.AssetManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.android.synthetic.main.activity_chat.view.*
 import kotlinx.coroutines.*
 import java.io.InputStream
 
@@ -19,12 +21,13 @@ class ChatActivity : AppCompatActivity() {
     private val checkWord = CheckWord()
     private val context = this
     private var enphagoWord: String? = "init"
+    private var isFinished = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        supportActionBar?.title = "게임 진행중 - ${turn}턴"
+        customToolbar.turnText.text = "${turn}턴 진행 중"
 
         val adapter = ChatAdapter()
         chatRecyclerView.adapter = adapter
@@ -45,7 +48,7 @@ class ChatActivity : AppCompatActivity() {
                         adapter.chatList.add(Chat(Chat.USER,word))
                         adapter.notifyDataSetChanged()
                         turn+=1
-                        supportActionBar?.title = "게임 진행중 - ${turn}턴"
+                        customToolbar.turnText.text = "${turn}턴 진행 중"
                         successed = true
                     }
                     CheckWord.BLANK_INPUT -> Toast.makeText(context,"단어를 입력해주세요",Toast.LENGTH_SHORT).show()
@@ -99,10 +102,7 @@ class ChatActivity : AppCompatActivity() {
                         alertDialog.setMessage("축하합니다!\nEnphago가 기권하였습니다.")
                         alertDialog.setIcon(R.mipmap.app_icon)
 
-                        supportActionBar?.title = "게임 종료 - 총 ${turn}턴"
-                        userInput.hint = "게임이 종료되었습니다"
-                        userInput.isEnabled = false
-                        ansBtn.isEnabled = false
+                        finishGame()
 
                         alertDialog.setPositiveButton("확인",null)
                         alertDialog.show()
@@ -110,5 +110,39 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        if(!isFinished){
+            val alertDialog = AlertDialog.Builder(context)
+            alertDialog.setTitle("게임에서 나가시겠습니까?")
+            alertDialog.setMessage("게임에서 나가시면 자동기권 처리됩니다.")
+
+            val dialogListener = DialogInterface.OnClickListener { dialog, which ->
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> {
+                        finishGame()
+                        val loseDialog = AlertDialog.Builder(context)
+                        loseDialog.setTitle("당신의 패배")
+                        loseDialog.setMessage("게임 이탈로 인해 기권처리 되었습니다.")
+                        loseDialog.setIcon(R.mipmap.app_icon)
+                        loseDialog.setPositiveButton("확인") { _, _ -> finish() }
+                        loseDialog.show()
+                    }
+                }
+            }
+            alertDialog.setPositiveButton("예",dialogListener)
+            alertDialog.setNegativeButton("아니오",null)
+            alertDialog.show()
+        }
+        else super.onBackPressed()
+    }
+
+    fun finishGame(){
+        customToolbar.turnText.text = "총 ${turn}턴 종료"
+        userInput.hint = "게임이 종료되었습니다"
+        userInput.isEnabled = false
+        ansBtn.isEnabled = false
+        isFinished = true
     }
 }

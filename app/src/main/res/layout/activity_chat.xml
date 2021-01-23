@@ -6,6 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".ChatActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/customToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue_500"
+        android:theme = "?attr/actionBarTheme"
+        android:minHeight="?attr/actionBarSize">
+
+        <TextView
+            android:id="@+id/turnText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Title"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold">
+
+        </TextView>
+
+    </androidx.appcompat.widget.Toolbar>
+
     <EditText
         android:id="@+id/userInput"
         android:layout_width="0dp"
@@ -41,7 +64,7 @@
         app:layout_constraintBottom_toTopOf="@+id/userInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/customToolbar" />
 
     <ProgressBar
         android:id="@+id/wordCheckProgressBar"
