@@ -6,11 +6,17 @@ import android.content.res.AssetManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.core.view.isVisible
 import androidx.room.Room
+import kotlinx.android.synthetic.main.activity_splash.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.InputStream
 import kotlin.concurrent.thread
 
 class SplashActivity : AppCompatActivity() {
+    val context = this
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -20,24 +26,31 @@ class SplashActivity : AppCompatActivity() {
         val pref = getSharedPreferences("first_launch", Context.MODE_PRIVATE)
         if(!pref.getBoolean("check",false)){
 
-            val roomWordHelper = Room.databaseBuilder(this, RoomWordHelper::class.java, "word")
-                .allowMainThreadQueries()
-                .build()
-            roomWordHelper.roomWordDAO().deleteAll()
-            val assetManager: AssetManager = resources.assets
-            val inputStream: InputStream = assetManager.open("word_list.txt")
-            inputStream.bufferedReader().readLines().forEach {
-                val word = Word(it.substring(0..0),it)
-                roomWordHelper.roomWordDAO().insert(word)
+            val TOTAL_WORD_NUM = 50000
+            wordLoadProgressBar.isVisible = true
+            wordLoadText.isVisible = true
+
+            CoroutineScope(Dispatchers.IO).launch{
+                val roomWordHelper = Room.databaseBuilder(context, RoomWordHelper::class.java, "word")
+                        .allowMainThreadQueries()
+                        .build()
+                roomWordHelper.roomWordDAO().deleteAll()
+                val assetManager: AssetManager = resources.assets
+                val inputStream: InputStream = assetManager.open("word_list.txt")
+                inputStream.bufferedReader().readLines().forEach {
+                    val word = Word(it.substring(0..0),it)
+                    roomWordHelper.roomWordDAO().insert(word)
+                    wordLoadProgressBar.incrementProgressBy(2)
+                }
+
+                val editor = pref.edit()
+                editor.putBoolean("check",true)
+                editor.apply()
+
+                val intent = Intent(context, MainActivity::class.java)
+                startActivity(intent)
+                finish()
             }
-
-            val editor = pref.edit()
-            editor.putBoolean("check",true)
-            editor.apply()
-
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
         }
         else{
             thread(start=true) {

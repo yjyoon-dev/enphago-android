@@ -15,22 +15,25 @@ class CheckWord {
         const val OK = 0
         const val BLANK_INPUT = 1
         const val TOO_SHORT = 2
-        const val ALREADY_USED = 3
-        const val INVALID_WORD = 4
-        const val INTERNET_DISCONNECTED = 5
+        const val MISMATCHED_WORD = 3
+        const val ALREADY_USED = 4
+        const val INVALID_WORD = 5
+        const val INTERNET_DISCONNECTED = 6
     }
 
-    private var usedWordSet = mutableSetOf<String>()
+    var usedWordSet = mutableSetOf<String>()
 
     private val baseUrl = "https://stdict.korean.go.kr/api/search.do?certkey_no=2231&key="
     private val apiKey = "DD142E025E13B1072F2AF6E6C5D0A602"
     private val opt = "&type_search=search&advanced=y&pos=1,2,3&q="
 
-    suspend fun check(word: String): Int {
+    suspend fun check(word: String, enphagoWord: String): Int {
 
         if(word.isEmpty()) return BLANK_INPUT
 
         if(word.length < 2) return TOO_SHORT
+
+        if(!isMatched(enphagoWord, word)) return MISMATCHED_WORD
 
         if(usedWordSet.contains(word)) return ALREADY_USED
 
@@ -53,5 +56,9 @@ class CheckWord {
 
         usedWordSet.add(word)
         return OK
+    }
+    fun isMatched(prevWord: String, curWord:String): Boolean{
+        if(prevWord == "init") return true
+        return prevWord.substring(prevWord.length-1) == curWord.substring(0..0)
     }
 }
