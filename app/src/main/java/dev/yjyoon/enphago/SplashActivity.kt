@@ -27,6 +27,7 @@ class SplashActivity : AppCompatActivity() {
         if(!pref.getBoolean("check",false)){
 
             val TOTAL_WORD_NUM = 50000
+            wordLoadProgressBar.max = TOTAL_WORD_NUM
             wordLoadProgressBar.isVisible = true
             wordLoadText.isVisible = true
 
