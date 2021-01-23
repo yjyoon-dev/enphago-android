@@ -8,8 +8,8 @@ import androidx.room.Query
 
 @Dao
 interface RoomWordDAO {
-    @Query("SELECT * FROM word WHERE first = :first")
-    fun getWord(first: String): MutableList<Word>
+    @Query("SELECT * FROM word WHERE first = :tail")
+    fun getWord(tail: String): MutableList<Word>
 
     @Query("SELECT * FROM word")
     fun getAll(): List<Word>

@@ -34,6 +34,8 @@ class ChatActivity : AppCompatActivity() {
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
 
         ansBtn.setOnClickListener {
+
+            // 플레이어 단어 검사 시작
             ansBtn.isEnabled = false
             wordCheckProgressBar.isVisible = true
 
@@ -64,14 +66,18 @@ class ChatActivity : AppCompatActivity() {
 
                 chatRecyclerView.scrollToPosition(adapter.chatList.size-1)
 
+                // 엔파고 반격 시작
                 if(successed) {
                     enphagoWord = null
                     delay(1000) // 자연스러움을 위한 시간차 딜레이
 
+                    var tail = word.substring(word.length - 1)
+                    if(checkWord.convertMap.containsKey(tail)) tail = checkWord.convertMap.get(tail)!!
+
                     val roomWordHelper = Room.databaseBuilder(context, RoomWordHelper::class.java, "word")
                             .allowMainThreadQueries()
                             .build()
-                    val candList: MutableList<Word> = roomWordHelper.roomWordDAO().getWord(word.substring(word.length - 1))
+                    val candList: MutableList<Word> = roomWordHelper.roomWordDAO().getWord(tail)
 
                     if (candList.isNotEmpty()) {
                         candList.shuffle()

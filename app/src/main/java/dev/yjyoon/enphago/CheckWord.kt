@@ -27,6 +27,28 @@ class CheckWord {
     private val apiKey = "DD142E025E13B1072F2AF6E6C5D0A602"
     private val opt = "&type_search=search&advanced=y&pos=1,2,3&q="
 
+    val convertMap =
+            mapOf("라" to "나","락" to "낙","란" to "난","랄" to "날",
+            "람" to "남","랍" to "납","랏" to "낫","랑" to "낭",
+            "략" to "약","량" to "양","렁" to "넝","려" to "여",
+            "녀" to "여","력" to "역","녁" to "역","련" to "연",
+            "년" to "연","렬" to "열","렴" to "염","념" to "염",
+            "렵" to "엽","령" to "영","녕" to "영","로" to "노",
+            "록" to "녹","론" to "논","롤" to "놀","롬" to "놈",
+            "롭" to "놉","롯" to "놋","롱" to "농","료" to "요",
+            "뇨" to "요","룡" to "용","뇽" to "용","루" to "누",
+            "룩" to "눅","룬" to "눈","룰" to "눌","룸" to "눔",
+            "룻" to "눗","룽" to "눙","류" to "유","뉴" to "유",
+            "륙" to "육","률" to "율","르" to "느","륵" to "늑",
+            "른" to "는","를" to "늘","름" to "늠","릅" to "늡",
+            "릇" to "늣","릉" to "능","래" to "내","랙" to "낵",
+            "랜" to "낸","랠" to "낼","램" to "냄","랩" to "냅",
+            "랫" to "냇","랭" to "냉","례" to "예","뢰" to "뇌",
+            "리" to "이","니" to "이","린" to "인","닌" to "인",
+            "릴" to "일","닐" to "일","림" to "임","님" to "임",
+            "립" to "입","닙" to "입","릿" to "잇","닛" to "잇",
+            "링" to "잉","닝" to "잉")
+
     suspend fun check(word: String, enphagoWord: String): Int {
 
         if(word.isEmpty()) return BLANK_INPUT
@@ -59,6 +81,14 @@ class CheckWord {
     }
     fun isMatched(prevWord: String, curWord:String): Boolean{
         if(prevWord == "init") return true
-        return prevWord.substring(prevWord.length-1) == curWord.substring(0..0)
+
+        var tail = prevWord.substring(prevWord.length-1)
+        val head = curWord.substring(0..0)
+
+        if(tail == head) return true;
+
+        if(convertMap.containsKey(tail)) tail = convertMap.get(tail)!!
+
+        return tail == head
     }
 }
