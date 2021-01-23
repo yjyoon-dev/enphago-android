@@ -96,7 +96,7 @@ class ChatActivity : AppCompatActivity() {
                         adapter.notifyDataSetChanged()
                         chatRecyclerView.scrollToPosition(adapter.chatList.size - 1)
                     }
-                    else{
+                    else {
                         adapter.chatList.add(Chat(Chat.ENPHAGO, "..."))
                         adapter.notifyDataSetChanged()
                         chatRecyclerView.scrollToPosition(adapter.chatList.size - 1)
@@ -119,7 +119,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if(!isFinished){
+        if(!isFinished) {
             val alertDialog = AlertDialog.Builder(context)
             alertDialog.setTitle("게임에서 나가시겠습니까?")
             alertDialog.setMessage("게임에서 나가시면 자동기권 처리됩니다.")
@@ -144,7 +144,7 @@ class ChatActivity : AppCompatActivity() {
         else super.onBackPressed()
     }
 
-    fun finishGame(){
+    fun finishGame() {
         customToolbar.turnText.text = "총 ${turn}턴 종료"
         userInput.hint = "게임이 종료되었습니다"
         userInput.isEnabled = false

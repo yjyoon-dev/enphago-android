@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="@color/blue_200">
+    android:layout_height="80dp">
 
     <ImageView
         android:id="@+id/enphagoIcon"
@@ -24,6 +23,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="3dp"
         android:background="@color/white"
+        android:clickable="true"
         android:fontFamily="sans-serif-medium"
         android:gravity="left"
         android:text="  테스트 용 텍스트 입니다  "

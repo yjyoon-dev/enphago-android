@@ -44,45 +44,45 @@
             android:id="@+id/gameStartBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/clickable_button"
             android:fontFamily="sans-serif-black"
             android:text="@string/game_start"
-            android:textColor="@color/blue_500"
-            android:textSize="18sp"
-            app:rippleColor="@color/blue_200" />
+            android:textColor="@color/clickable_text"
+            android:textColorHighlight="@color/clickable_text"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/infoBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/clickable_button"
             android:fontFamily="sans-serif-black"
             android:text="@string/game_info"
-            android:textColor="@color/blue_500"
-            android:textSize="18sp"
-            app:rippleColor="@color/blue_200" />
+            android:textColor="@color/clickable_text"
+            android:textColorHighlight="@color/clickable_text"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/recordBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/clickable_button"
             android:fontFamily="sans-serif-black"
             android:text="@string/setting"
-            android:textColor="@color/blue_500"
-            android:textSize="18sp"
-            app:rippleColor="@color/blue_200" />
+            android:textColor="@color/clickable_text"
+            android:textColorHighlight="@color/clickable_text"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/exitBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/clickable_button"
             android:fontFamily="sans-serif-black"
             android:text="@string/exit"
-            android:textColor="@color/blue_500"
-            android:textSize="18sp"
-            app:rippleColor="@color/blue_200" />
+            android:textColor="@color/clickable_text"
+            android:textColorHighlight="@color/clickable_text"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <TextView
