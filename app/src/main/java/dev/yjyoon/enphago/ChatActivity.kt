@@ -1,11 +1,13 @@
 package dev.yjyoon.enphago
 
 import android.content.DialogInterface
-import android.content.res.AssetManager
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
-import android.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -14,7 +16,6 @@ import androidx.room.Room
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_chat.view.*
 import kotlinx.coroutines.*
-import java.io.InputStream
 
 class ChatActivity : AppCompatActivity() {
     private var turn = 0
@@ -26,6 +27,12 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+
+        setSupportActionBar(findViewById(R.id.customToolbar))
+        val toolbar = supportActionBar
+        toolbar?.setDisplayShowCustomEnabled(true)
+        toolbar?.setDisplayShowTitleEnabled(false)
+
 
         customToolbar.turnText.text = "${turn}턴 진행 중"
 
@@ -120,11 +127,45 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val menuInflater = menuInflater
+        menuInflater.inflate(R.menu.surrender, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.surrenderBtn -> {
+                val alertDialog = AlertDialog.Builder(context)
+                alertDialog.setTitle("기권하시겠습니까?")
+                alertDialog.setMessage("기권하시면 패배 처리됩니다.")
+
+                val dialogListener = DialogInterface.OnClickListener { dialog, which ->
+                    when (which) {
+                        DialogInterface.BUTTON_POSITIVE -> {
+                            finishGame()
+                            val loseDialog = AlertDialog.Builder(context)
+                            loseDialog.setTitle("당신의 패배")
+                            loseDialog.setMessage("Enphago로부터 기권하셨습니다.")
+                            loseDialog.setIcon(R.mipmap.app_icon)
+                            loseDialog.setPositiveButton("확인",null)
+                            loseDialog.show()
+                        }
+                    }
+                }
+                alertDialog.setPositiveButton("예",dialogListener)
+                alertDialog.setNegativeButton("아니오",null)
+                alertDialog.show()
+            }
+        }
+        return true
+    }
+
     override fun onBackPressed() {
         if(!isFinished) {
             val alertDialog = AlertDialog.Builder(context)
             alertDialog.setTitle("게임에서 나가시겠습니까?")
-            alertDialog.setMessage("게임에서 나가시면 자동기권 처리됩니다.")
+            alertDialog.setMessage("게임에서 나가시면 기권 처리됩니다.")
 
             val dialogListener = DialogInterface.OnClickListener { dialog, which ->
                 when (which) {
@@ -147,6 +188,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     fun finishGame() {
+        findViewById<View>(R.id.surrenderBtn).isVisible = false
         customToolbar.turnText.text = "총 ${turn}턴 종료"
         userInput.hint = "게임이 종료되었습니다"
         userInput.isEnabled = false

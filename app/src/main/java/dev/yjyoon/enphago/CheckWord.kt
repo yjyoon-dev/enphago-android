@@ -23,10 +23,6 @@ class CheckWord {
 
     var usedWordSet = mutableSetOf<String>()
 
-    private val baseUrl = "https://stdict.korean.go.kr/api/search.do?certkey_no=2231&key="
-    private val apiKey = "DD142E025E13B1072F2AF6E6C5D0A602"
-    private val opt = "&type_search=search&advanced=y&pos=1,2,3&q="
-
     val convertMap =
             mapOf("라" to "나","락" to "낙","란" to "난","랄" to "날",
                     "람" to "남","랍" to "납","랏" to "낫","랑" to "낭",
@@ -50,6 +46,10 @@ class CheckWord {
                     "릴" to "일","닐" to "일","림" to "임","님" to "임",
                     "립" to "입","닙" to "입","릿" to "잇","닛" to "잇",
                     "링" to "잉","닝" to "잉")
+
+    private val baseUrl = "https://stdict.korean.go.kr/api/search.do?certkey_no=2231&key="
+    private val apiKey = "DD142E025E13B1072F2AF6E6C5D0A602"
+    private val opt = "&type_search=search&advanced=y&pos=1,2,3&q="
 
     suspend fun check(word: String, enphagoWord: String): Int {
 
