@@ -97,6 +97,8 @@ class ChatActivity : AppCompatActivity() {
                         chatRecyclerView.scrollToPosition(adapter.chatList.size - 1)
                     }
                     else {
+                        delay(1000)
+
                         adapter.chatList.add(Chat(Chat.ENPHAGO, "..."))
                         adapter.notifyDataSetChanged()
                         chatRecyclerView.scrollToPosition(adapter.chatList.size - 1)
