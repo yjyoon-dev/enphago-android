@@ -62,14 +62,13 @@ class CheckWord {
         if(usedWordSet.contains(word)) return ALREADY_USED
 
         try {
-            val isValid = GlobalScope.async(Dispatchers.IO) {
+            val isValid: Boolean = GlobalScope.async(Dispatchers.IO) {
                 val url = baseUrl + apiKey + opt + word
                 val xml = DocumentBuilderFactory.newInstance().newDocumentBuilder()
                     .parse(URL(url).openConnection().getInputStream())
                 val root = xml.documentElement
-                val nodeList = root.getElementsByTagName("total")
-                val total = nodeList.item(0) as Element
-                total.textContent.toString() != "0"
+                val total = root.getElementsByTagName("total").item(0).textContent.toString()
+                total != "0"
             }.await()
 
             if(!isValid) return INVALID_WORD

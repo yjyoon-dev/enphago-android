@@ -29,14 +29,14 @@ class ChatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chat)
 
         setSupportActionBar(findViewById(R.id.customToolbar))
-        val toolbar = supportActionBar
-        toolbar!!.setDisplayShowCustomEnabled(true)
-        toolbar!!.setDisplayShowTitleEnabled(false)
-        toolbar!!.setDisplayHomeAsUpEnabled(true)
-        toolbar!!.setHomeAsUpIndicator(R.drawable.outline_help_outline_white_36)
+        supportActionBar!!.setDisplayShowCustomEnabled(true)
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.outline_help_outline_white_36)
+
         customToolbar.turnText.text = "${turn}턴 진행 중"
 
-        val adapter = ChatAdapter()
+        val adapter = ChatAdapter(this)
         chatRecyclerView.adapter = adapter
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -62,8 +62,8 @@ class ChatActivity : AppCompatActivity() {
                     }
                     CheckWord.BLANK_INPUT -> Toast.makeText(context,"단어를 입력해주세요",Toast.LENGTH_SHORT).show()
                     CheckWord.TOO_SHORT -> Toast.makeText(context,"단어가 너무 짧습니다",Toast.LENGTH_SHORT).show()
-                    CheckWord.MISMATCHED_WORD -> Toast.makeText(context,"끝말이 이어지지 않습니다",Toast.LENGTH_SHORT).show()
-                    CheckWord.ALREADY_USED -> Toast.makeText(context,"이미 사용된 단어입니다",Toast.LENGTH_SHORT).show()
+                    CheckWord.MISMATCHED_WORD -> Toast.makeText(context,"\"${enphagoWord}\"와(과) 끝말이 이어지지 않습니다",Toast.LENGTH_SHORT).show()
+                    CheckWord.ALREADY_USED -> Toast.makeText(context,"\"${word}\"은(는) 이미 사용된 단어입니다",Toast.LENGTH_SHORT).show()
                     CheckWord.INVALID_WORD -> Toast.makeText(context,"명사가 아니거나 존재하지 않는 단어입니다",Toast.LENGTH_SHORT).show()
                     CheckWord.INTERNET_DISCONNECTED -> Toast.makeText(context,"네트워크 연결 상태를 확인해주세요",Toast.LENGTH_SHORT).show()
                 }
@@ -192,6 +192,7 @@ class ChatActivity : AppCompatActivity() {
 
     fun finishGame() {
         findViewById<View>(R.id.surrenderBtn).isVisible = false
+        supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         customToolbar.turnText.text = "총 ${turn}턴 종료"
         userInput.hint = "게임이 종료되었습니다"
         userInput.isEnabled = false
