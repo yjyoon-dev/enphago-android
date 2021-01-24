@@ -30,10 +30,10 @@ class ChatActivity : AppCompatActivity() {
 
         setSupportActionBar(findViewById(R.id.customToolbar))
         val toolbar = supportActionBar
-        toolbar?.setDisplayShowCustomEnabled(true)
-        toolbar?.setDisplayShowTitleEnabled(false)
-
-
+        toolbar!!.setDisplayShowCustomEnabled(true)
+        toolbar!!.setDisplayShowTitleEnabled(false)
+        toolbar!!.setDisplayHomeAsUpEnabled(true)
+        toolbar!!.setHomeAsUpIndicator(R.drawable.outline_help_outline_white_36)
         customToolbar.turnText.text = "${turn}턴 진행 중"
 
         val adapter = ChatAdapter()
@@ -156,6 +156,9 @@ class ChatActivity : AppCompatActivity() {
                 alertDialog.setPositiveButton("예",dialogListener)
                 alertDialog.setNegativeButton("아니오",null)
                 alertDialog.show()
+            }
+            android.R.id.home -> {
+                Toast.makeText(context,"도움말 표시",Toast.LENGTH_SHORT).show()
             }
         }
         return true
