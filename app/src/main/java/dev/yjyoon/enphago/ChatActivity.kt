@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -23,6 +22,7 @@ class ChatActivity : AppCompatActivity() {
     private val context = this
     private var enphagoWord: String? = "init"
     private var isFinished = false
+    val adapter = ChatAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +34,8 @@ class ChatActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.outline_help_outline_white_36)
 
-        customToolbar.turnText.text = "${turn}턴 진행 중"
+        customToolbar.turnText.text = "첫 단어를 입력해주세요!"
 
-        val adapter = ChatAdapter(this)
         chatRecyclerView.adapter = adapter
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -75,27 +74,9 @@ class ChatActivity : AppCompatActivity() {
 
                 // 엔파고 반격 시작
                 if(successed) {
-                    enphagoWord = null
                     delay(1000) // 자연스러움을 위한 시간차 딜레이
 
-                    var tail = word.substring(word.length - 1)
-                    if(checkWord.convertMap.containsKey(tail)) tail = checkWord.convertMap.get(tail)!!
-
-                    val roomWordHelper = Room.databaseBuilder(context, RoomWordHelper::class.java, "word")
-                            .allowMainThreadQueries()
-                            .build()
-                    val candList: MutableList<Word> = roomWordHelper.roomWordDAO().getWord(tail)
-
-                    if (candList.isNotEmpty()) {
-                        candList.shuffle()
-
-                        for (cand in candList) {
-                            if (!checkWord.usedWordSet.contains(cand.word)) {
-                                enphagoWord = cand.word
-                                break
-                            }
-                        }
-                    }
+                    enphagoWord = getAnswer(word)
 
                     if (enphagoWord != null) {
                         checkWord.usedWordSet.add(enphagoWord!!)
@@ -127,6 +108,29 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    fun getAnswer(word: String): String? {
+        var tail = word.substring(word.length - 1)
+        if(checkWord.convertMap.containsKey(tail)) tail = checkWord.convertMap.get(tail)!!
+
+        val roomWordHelper = Room.databaseBuilder(context, RoomWordHelper::class.java, "word")
+                .allowMainThreadQueries()
+                .build()
+
+        val candList: MutableList<Word> = roomWordHelper.roomWordDAO().getWord(tail)
+
+        if (candList.isNotEmpty()) {
+            candList.shuffle()
+
+            for (cand in candList) {
+                if (!checkWord.usedWordSet.contains(cand.word)) {
+                    return cand.word
+                }
+            }
+        }
+
+        return null
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val menuInflater = menuInflater
         menuInflater.inflate(R.menu.surrender, menu)
@@ -143,13 +147,33 @@ class ChatActivity : AppCompatActivity() {
                 val dialogListener = DialogInterface.OnClickListener { dialog, which ->
                     when (which) {
                         DialogInterface.BUTTON_POSITIVE -> {
-                            finishGame()
-                            val loseDialog = AlertDialog.Builder(context)
-                            loseDialog.setTitle("당신의 패배")
-                            loseDialog.setMessage("Enphago로부터 기권하셨습니다.")
-                            loseDialog.setIcon(R.mipmap.app_icon)
-                            loseDialog.setPositiveButton("확인",null)
-                            loseDialog.show()
+                            CoroutineScope(Dispatchers.Main).launch {
+                                adapter.chatList.add(Chat(Chat.USER, "..."))
+                                adapter.notifyDataSetChanged()
+                                chatRecyclerView.scrollToPosition(adapter.chatList.size - 1)
+
+                                val hint = getAnswer(enphagoWord!!)
+                                if(hint != null) {
+                                    delay(1000)
+                                    adapter.chatList.add(Chat(Chat.ENPHAGO, "${hint}"))
+                                    adapter.notifyDataSetChanged()
+                                    chatRecyclerView.scrollToPosition(adapter.chatList.size - 1)
+                                    delay(1000)
+                                    adapter.chatList.add(Chat(Chat.ENPHAGO, "도 있었는데 아쉽군요"))
+                                    adapter.notifyDataSetChanged()
+                                    chatRecyclerView.scrollToPosition(adapter.chatList.size - 1)
+                                    delay(1000)
+                                }
+
+                                finishGame()
+
+                                val loseDialog = AlertDialog.Builder(context)
+                                loseDialog.setTitle("당신의 패배")
+                                loseDialog.setMessage("Enphago로부터 기권하셨습니다.")
+                                loseDialog.setIcon(R.mipmap.app_icon)
+                                loseDialog.setPositiveButton("확인",null)
+                                loseDialog.show()
+                            }
                         }
                     }
                 }

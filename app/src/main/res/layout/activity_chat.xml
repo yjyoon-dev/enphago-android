@@ -24,10 +24,12 @@
             android:layout_gravity="center"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Turn"
+            android:text="ToolBar"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            android:textStyle="bold">
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="185dp"
+            tools:layout_editor_absoluteY="14dp">
 
         </TextView>
 
@@ -63,9 +65,11 @@
         android:id="@+id/chatRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/gradation_chat"
         app:layout_constraintBottom_toTopOf="@+id/userInput"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customToolbar" />
 

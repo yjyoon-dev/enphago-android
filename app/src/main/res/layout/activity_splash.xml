@@ -56,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="앱 최초 실행 1회에 한하여 초기 설정을 진행 중입니다"
+        android:text="앱 최초 실행 1회에 한하여 초기 설정을 진행 중 입니다"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/wordLoadProgressBar"
         app:layout_constraintEnd_toEndOf="parent"

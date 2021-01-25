@@ -62,19 +62,21 @@ class ChatAdapter(context: Context): RecyclerView.Adapter<RecyclerView.ViewHolde
         var word: String? = null
         init {
             itemView.userText.setOnClickListener{
-                CoroutineScope(Dispatchers.Main).launch {
-                    itemView.searchUserProgressBar.isVisible = true
-                    val searchResult = SearchWord().search(word!!)
-                    if(searchResult != null){
-                        val resultDialog = AlertDialog.Builder(context!!)
-                        resultDialog.setTitle(searchResult.word)
-                        resultDialog.setMessage("[${searchResult.pos}]\n${searchResult.def}")
-                        resultDialog.setIcon(R.drawable.enphago_icon)
-                        resultDialog.setPositiveButton("확인",null)
-                        resultDialog.show()
+                if(word!="..."){
+                    CoroutineScope(Dispatchers.Main).launch {
+                        itemView.searchUserProgressBar.isVisible = true
+                        val searchResult = SearchWord().search(word!!)
+                        if(searchResult != null){
+                            val resultDialog = AlertDialog.Builder(context!!)
+                            resultDialog.setTitle(searchResult.word)
+                            resultDialog.setMessage("[${searchResult.pos}]\n${searchResult.def}")
+                            resultDialog.setIcon(R.drawable.enphago_icon)
+                            resultDialog.setPositiveButton("확인",null)
+                            resultDialog.show()
+                        }
+                        else Toast.makeText(context,"네트워크 연결 상태를 확인해주세요", Toast.LENGTH_SHORT).show()
+                        itemView.searchUserProgressBar.isVisible = false
                     }
-                    else Toast.makeText(context,"네트워크 연결 상태를 확인해주세요", Toast.LENGTH_SHORT).show()
-                    itemView.searchUserProgressBar.isVisible = false
                 }
             }
         }
@@ -88,7 +90,7 @@ class ChatAdapter(context: Context): RecyclerView.Adapter<RecyclerView.ViewHolde
         var word: String? = null
         init {
             itemView.enphagoText.setOnClickListener{
-                if(word!="..."){
+                if(word!="..." && word!="도 있었는데 아쉽군요"){
                     CoroutineScope(Dispatchers.Main).launch {
                         itemView.searchEnphagoProgressBar.isVisible = true
                         val searchResult = SearchWord().search(word!!)
