@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import kotlinx.android.synthetic.main.activity_record.*
+import kotlin.math.roundToInt
 
 class RecordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,9 +32,9 @@ class RecordActivity : AppCompatActivity() {
         val lose = pref.getInt("lose",0)
         val maxTurn = pref.getInt("maxTurn",0)
         val total = win+lose
-        var winRate: Double
-        if(total==0) winRate = 0.0
-        else winRate = win/total*100.0
+        var winRate: Float
+        if(total==0) winRate = 0f
+        else winRate = ((win.toFloat()/total.toFloat()*100.0)*10).roundToInt() / 10f
 
         totalGameText.text = "총 ${total}판 중"
         recordText.text = "${win}승  ${lose}패"

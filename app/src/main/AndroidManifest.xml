@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Enphago">
-        <activity android:name=".RecordActivity"></activity>
+        <activity android:name=".InfoActivity"></activity>
+        <activity android:name=".RecordActivity" />
         <activity android:name=".ChatActivity" />
         <activity
             android:name=".SplashActivity"

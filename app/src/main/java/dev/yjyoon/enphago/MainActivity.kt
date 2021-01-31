@@ -45,6 +45,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        infoBtn.setOnClickListener {
+            val intent = Intent(this,InfoActivity::class.java)
+            startActivity(intent)
+        }
+
         recordBtn.setOnClickListener {
             val intent = Intent(this,RecordActivity::class.java)
             startActivity(intent)

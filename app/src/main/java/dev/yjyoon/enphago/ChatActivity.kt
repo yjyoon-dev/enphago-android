@@ -2,6 +2,7 @@ package dev.yjyoon.enphago
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -184,7 +185,8 @@ class ChatActivity : AppCompatActivity() {
                 alertDialog.show()
             }
             android.R.id.home -> {
-                Toast.makeText(context,"도움말 표시",Toast.LENGTH_SHORT).show()
+                val intent = Intent(this,InfoActivity::class.java)
+                startActivity(intent)
             }
         }
         return true

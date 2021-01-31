@@ -11,4 +11,24 @@
     <string name="testText">테스트 용 텍스트 입니다</string>
     <string name="game_info">게임 설명</string>
     <string name="version">v1.0.0 for Android</string>
+    <string name="info_1">Enphago 는 한글 끝말잇기 AI 입니다</string>
+    <string name="info_2"> ■ 게임 규칙</string>
+    <string name="info_3"> - 사용자부터 시작해 Enphago 와 끝말잇기를 진행합니다.</string>
+    <string name="info_4"> - 단어는 두 글자 이상의 명사, 대명사, 수사만 사용 가능합니다.</string>
+    <string name="info_5"> - 국립국어원 표준국어대사전에 등재된 단어만 사용 가능합니다.</string>
+    <string name="info_6"> - 한 번 사용된 단어는 다시 사용할 수 없습니다.</string>
+    <string name="info_7"> - 첫 턴부터 한 방 단어를 사용할 수 없습니다.</string>
+    <string name="info_8"> - 두음법칙이 적용됩니다.</string>
+    <string name="info_9"> ■ 부가 기능</string>
+    <string name="info_10">을 클릭하여 단어 뜻을 검색할 수 있습니다.</string>
+    <string name="info_11">버튼을 클릭하여 기권할 수 있습니다.</string>
+    <string name="info_12">버튼을 클릭하여 도움말을 볼 수 있습니다.</string>
+    <string name="info_13"> 개발: yjyoon.dev@gmail.com</string>
+    <string name="info_14"> 오픈소스: https://github.com/yjyoon-dev/enphago-android</string>
+    <string name="info_15"> ■ 학습 기능</string>
+    <string name="info_16"> 버전: 1.1.0</string>
+    <string name="info_17"> ■ 버전 정보</string>
+    <string name="info_18"> - 사용자가 말한 단어가 모르는 단어일 경우 즉시 학습합니다.</string>
+    <string name="info_19"> - 패배했을 경우 마지막 단어를 한 방 단어로 학습합니다.</string>
+    <string name="info_20"> - 학습한 한 방 단어가 사용 가능할 경우 즉시 사용합니다.</string>
 </resources>
