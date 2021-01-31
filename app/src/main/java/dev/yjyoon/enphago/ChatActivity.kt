@@ -59,11 +59,14 @@ class ChatActivity : AppCompatActivity() {
                         adapter.chatList.add(Chat(Chat.USER,word))
                         adapter.notifyDataSetChanged()
 
+                        turn+=1
+                        customToolbar.turnText.text = "${turn}턴 진행 중"
+
                         successed = true
                     }
                     CheckWord.BLANK_INPUT -> Toast.makeText(context,"단어를 입력해주세요",Toast.LENGTH_SHORT).show()
                     CheckWord.TOO_SHORT -> Toast.makeText(context,"두 글자 이상의 단어를 입력해주세요",Toast.LENGTH_SHORT).show()
-                    CheckWord.MISMATCHED_WORD -> Toast.makeText(context,"\"${enphagoWord}\"와(과) 끝말이 이어지지 않습니다",Toast.LENGTH_SHORT).show()
+                    CheckWord.MISMATCHED_WORD -> Toast.makeText(context,"${getTail(enphagoWord!!)} (으)로 시작해야 합니다.",Toast.LENGTH_SHORT).show()
                     CheckWord.ALREADY_USED -> Toast.makeText(context,"\"${word}\"은(는) 이미 사용된 단어입니다",Toast.LENGTH_SHORT).show()
                     CheckWord.INVALID_WORD -> Toast.makeText(context,"명사가 아니거나 존재하지 않는 단어입니다",Toast.LENGTH_SHORT).show()
                     CheckWord.INTERNET_DISCONNECTED -> Toast.makeText(context,"네트워크 연결 상태를 확인해주세요",Toast.LENGTH_SHORT).show()
@@ -93,7 +96,7 @@ class ChatActivity : AppCompatActivity() {
                         chatRecyclerView.scrollToPosition(adapter.chatList.size - 1)
                     }
                     else {
-                        if(turn > 0){
+                        if(turn > 1){
                             delay(1000)
 
                             adapter.chatList.add(Chat(Chat.ENPHAGO, "..."))
@@ -124,6 +127,7 @@ class ChatActivity : AppCompatActivity() {
                             checkWord.usedWordSet.remove(word)
                             enphagoWord = "init"
                             turn-=1
+                            customToolbar.turnText.text = "첫 단어를 입력해주세요!"
                         }
 
                         // 한 방 단어 학습
@@ -131,10 +135,14 @@ class ChatActivity : AppCompatActivity() {
                         roomWordHelper.roomWordDAO().update(Word(endWord[0].first,endWord[0].word,true))
                     }
                 }
-                turn+=1
-                if(turn > 0) customToolbar.turnText.text = "${turn}턴 진행 중"
             }
         }
+    }
+
+    fun getTail(word: String): String{
+        var tail = word.substring(word.length - 1)
+        if(checkWord.convertMap.containsKey(tail)) return "\"${tail}\" 또는 \"${checkWord.convertMap.get(tail)}\""
+        return "\"${tail}\""
     }
 
     fun getAnswer(word: String): String? {
@@ -193,7 +201,7 @@ class ChatActivity : AppCompatActivity() {
                                     chatRecyclerView.scrollToPosition(adapter.chatList.size - 1)
                                     delay(1000)
                                 }
-                                else{
+                                else if(enphagoWord!="init"){
                                     // 한 방 단어 학습
                                     val roomWordHelper = Room.databaseBuilder(context, RoomWordHelper::class.java, "word").allowMainThreadQueries().build()
                                     val endWord: List<Word> = roomWordHelper.roomWordDAO().findWord(enphagoWord!!)
