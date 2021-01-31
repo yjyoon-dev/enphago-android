@@ -14,7 +14,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -145,7 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/clickable_button"
                 android:clickable="true"
                 android:focusable="true"
@@ -160,7 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="9dp"
                 android:text="@string/info_10"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toEndOf="@+id/textView20"
@@ -171,9 +170,9 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView21"
+                app:layout_constraintTop_toBottomOf="@+id/textView20"
                 app:srcCompat="@drawable/surrender" />
 
             <TextView
@@ -181,7 +180,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="26dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/info_11"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toEndOf="@+id/textView20"
@@ -192,9 +191,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView22"
+                app:layout_constraintTop_toBottomOf="@+id/imageView7"
                 app:srcCompat="@drawable/outline_help_outline_white_36" />
 
             <TextView
@@ -202,7 +201,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="28dp"
                 android:text="@string/info_12"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toEndOf="@+id/textView20"

@@ -58,8 +58,7 @@ class ChatActivity : AppCompatActivity() {
                     CheckWord.OK -> {
                         adapter.chatList.add(Chat(Chat.USER,word))
                         adapter.notifyDataSetChanged()
-                        turn+=1
-                        customToolbar.turnText.text = "${turn}턴 진행 중"
+
                         successed = true
                     }
                     CheckWord.BLANK_INPUT -> Toast.makeText(context,"단어를 입력해주세요",Toast.LENGTH_SHORT).show()
@@ -88,25 +87,42 @@ class ChatActivity : AppCompatActivity() {
                         chatRecyclerView.scrollToPosition(adapter.chatList.size - 1)
                     }
                     else {
-                        delay(1000)
+                        if(turn > 0){
+                            delay(1000)
 
-                        adapter.chatList.add(Chat(Chat.ENPHAGO, "..."))
-                        adapter.notifyDataSetChanged()
-                        chatRecyclerView.scrollToPosition(adapter.chatList.size - 1)
+                            adapter.chatList.add(Chat(Chat.ENPHAGO, "..."))
+                            adapter.notifyDataSetChanged()
+                            chatRecyclerView.scrollToPosition(adapter.chatList.size - 1)
 
-                        delay(1000)
+                            delay(1000)
 
-                        finishGame(1)
+                            finishGame(1)
 
-                        val alertDialog = AlertDialog.Builder(context)
-                        alertDialog.setTitle("당신의 승리")
-                        alertDialog.setMessage("축하합니다!\nEnphago가 기권하였습니다.")
-                        alertDialog.setIcon(R.mipmap.app_icon)
+                            val alertDialog = AlertDialog.Builder(context)
+                            alertDialog.setTitle("당신의 승리")
+                            alertDialog.setMessage("축하합니다!\nEnphago가 기권하였습니다.")
+                            alertDialog.setIcon(R.mipmap.app_icon)
 
-                        alertDialog.setPositiveButton("확인",null)
-                        alertDialog.show()
+                            alertDialog.setPositiveButton("확인",null)
+                            alertDialog.show()
+                        }
+                        else{
+                            val alertDialog = AlertDialog.Builder(context)
+                            alertDialog.setTitle("규칙 위반")
+                            alertDialog.setMessage("첫 턴부터 한 방 단어를 사용할 수 없습니다. 다시 입력해주세요.")
+                            alertDialog.setIcon(R.mipmap.app_icon)
+
+                            alertDialog.setPositiveButton("확인",null)
+                            alertDialog.show()
+
+                            checkWord.usedWordSet.remove(word)
+                            enphagoWord = "init"
+                            turn-=1
+                        }
                     }
                 }
+                turn+=1
+                if(turn > 0) customToolbar.turnText.text = "${turn}턴 진행 중"
             }
         }
     }

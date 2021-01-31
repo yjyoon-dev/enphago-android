@@ -26,7 +26,7 @@
     <string name="info_13"> 개발: yjyoon.dev@gmail.com</string>
     <string name="info_14"> 오픈소스: https://github.com/yjyoon-dev/enphago-android</string>
     <string name="info_15"> ■ 학습 기능</string>
-    <string name="info_16"> 버전: 1.1.0</string>
+    <string name="info_16"> 버전: 1.0.0</string>
     <string name="info_17"> ■ 버전 정보</string>
     <string name="info_18"> - 사용자가 말한 단어가 모르는 단어일 경우 즉시 학습합니다.</string>
     <string name="info_19"> - 패배했을 경우 마지막 단어를 한 방 단어로 학습합니다.</string>
