@@ -126,6 +126,7 @@ class ChatActivity : AppCompatActivity() {
                             turn-=1
                         }
 
+                        // 한 방 단어 학습
                         val endWord: List<Word> = roomWordHelper.roomWordDAO().findWord(word)
                         roomWordHelper.roomWordDAO().update(Word(endWord[0].first,endWord[0].word,true))
                     }
@@ -151,7 +152,7 @@ class ChatActivity : AppCompatActivity() {
             for (cand in candList) {
                 if (!checkWord.usedWordSet.contains(cand.word)) {
                     candWord = cand.word
-                    if(cand.end) return cand.word
+                    if(cand.end) return cand.word // 한 방 단어 우선 도출
                 }
             }
         }
@@ -193,6 +194,7 @@ class ChatActivity : AppCompatActivity() {
                                     delay(1000)
                                 }
                                 else{
+                                    // 한 방 단어 학습
                                     val roomWordHelper = Room.databaseBuilder(context, RoomWordHelper::class.java, "word").allowMainThreadQueries().build()
                                     val endWord: List<Word> = roomWordHelper.roomWordDAO().findWord(enphagoWord!!)
                                     roomWordHelper.roomWordDAO().update(Word(endWord[0].first,endWord[0].word,true))
