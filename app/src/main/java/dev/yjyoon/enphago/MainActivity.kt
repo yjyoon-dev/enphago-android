@@ -44,6 +44,12 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,ChatActivity::class.java)
             startActivity(intent)
         }
+
+        recordBtn.setOnClickListener {
+            val intent = Intent(this,RecordActivity::class.java)
+            startActivity(intent)
+        }
+
         exitBtn.setOnClickListener {
             finish()
         }

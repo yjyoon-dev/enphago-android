@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Enphago">
-        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".RecordActivity"></activity>
+        <activity android:name=".ChatActivity" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Theme.Fullscreen">
@@ -21,8 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

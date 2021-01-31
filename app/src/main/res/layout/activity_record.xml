@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recordScreenLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradation_animation"
+    tools:context=".RecordActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="나의 전적"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/totalGameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="총 0판 중"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/recordText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:shadowColor="#252525"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"
+            android:text="0승  0패"
+            android:textColor="@color/white"
+            android:textSize="48sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/winrateText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="승률: 00%"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/maxTurnText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="최대 진행 턴 수: 0턴"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/viewLogBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/clickable_button"
+        android:text="기록 보기"
+        android:textColor="@color/clickable_text"
+        android:textColorHighlight="@color/clickable_text"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

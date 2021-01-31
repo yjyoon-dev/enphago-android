@@ -1,6 +1,8 @@
 package dev.yjyoon.enphago
 
+import android.content.Context
 import android.content.DialogInterface
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -60,7 +62,7 @@ class ChatActivity : AppCompatActivity() {
                         successed = true
                     }
                     CheckWord.BLANK_INPUT -> Toast.makeText(context,"단어를 입력해주세요",Toast.LENGTH_SHORT).show()
-                    CheckWord.TOO_SHORT -> Toast.makeText(context,"단어가 너무 짧습니다",Toast.LENGTH_SHORT).show()
+                    CheckWord.TOO_SHORT -> Toast.makeText(context,"두 글자 이상의 단어를 입력해주세요",Toast.LENGTH_SHORT).show()
                     CheckWord.MISMATCHED_WORD -> Toast.makeText(context,"\"${enphagoWord}\"와(과) 끝말이 이어지지 않습니다",Toast.LENGTH_SHORT).show()
                     CheckWord.ALREADY_USED -> Toast.makeText(context,"\"${word}\"은(는) 이미 사용된 단어입니다",Toast.LENGTH_SHORT).show()
                     CheckWord.INVALID_WORD -> Toast.makeText(context,"명사가 아니거나 존재하지 않는 단어입니다",Toast.LENGTH_SHORT).show()
@@ -93,12 +95,12 @@ class ChatActivity : AppCompatActivity() {
 
                         delay(1000)
 
+                        finishGame(1)
+
                         val alertDialog = AlertDialog.Builder(context)
                         alertDialog.setTitle("당신의 승리")
                         alertDialog.setMessage("축하합니다!\nEnphago가 기권하였습니다.")
                         alertDialog.setIcon(R.mipmap.app_icon)
-
-                        finishGame()
 
                         alertDialog.setPositiveButton("확인",null)
                         alertDialog.show()
@@ -165,7 +167,7 @@ class ChatActivity : AppCompatActivity() {
                                     delay(1000)
                                 }
 
-                                finishGame()
+                                finishGame(0)
 
                                 val loseDialog = AlertDialog.Builder(context)
                                 loseDialog.setTitle("당신의 패배")
@@ -197,7 +199,8 @@ class ChatActivity : AppCompatActivity() {
             val dialogListener = DialogInterface.OnClickListener { dialog, which ->
                 when (which) {
                     DialogInterface.BUTTON_POSITIVE -> {
-                        finishGame()
+                        finishGame(0)
+
                         val loseDialog = AlertDialog.Builder(context)
                         loseDialog.setTitle("당신의 패배")
                         loseDialog.setMessage("게임 이탈로 인해 기권처리 되었습니다.")
@@ -214,7 +217,7 @@ class ChatActivity : AppCompatActivity() {
         else super.onBackPressed()
     }
 
-    fun finishGame() {
+    fun finishGame(result: Int) {
         findViewById<View>(R.id.surrenderBtn).isVisible = false
         supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         customToolbar.turnText.text = "총 ${turn}턴 종료"
@@ -222,5 +225,30 @@ class ChatActivity : AppCompatActivity() {
         userInput.isEnabled = false
         ansBtn.isEnabled = false
         isFinished = true
+        val pref = getSharedPreferences("record", Context.MODE_PRIVATE)
+        val maxTurn = pref.getInt("maxTurn",0)
+        if(maxTurn < turn) {
+            val prefEditor = pref.edit()
+            prefEditor.putInt("maxTurn",turn)
+            prefEditor.apply()
+        }
+        if(result==1) recordWin()
+        else recordLose()
+    }
+
+    fun recordWin() {
+        val pref = getSharedPreferences("record", Context.MODE_PRIVATE)
+        val win = pref.getInt("win",0)
+        val prefEditor = pref.edit()
+        prefEditor.putInt("win",win+1)
+        prefEditor.apply()
+    }
+
+    fun recordLose() {
+        val pref = getSharedPreferences("record", Context.MODE_PRIVATE)
+        val lose = pref.getInt("lose",0)
+        val prefEditor = pref.edit()
+        prefEditor.putInt("lose",lose+1)
+        prefEditor.apply()
     }
 }
