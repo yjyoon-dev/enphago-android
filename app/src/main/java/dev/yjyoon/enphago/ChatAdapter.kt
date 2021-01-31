@@ -25,7 +25,7 @@ class ChatAdapter(context: Context): RecyclerView.Adapter<RecyclerView.ViewHolde
     var chatList = mutableListOf<Chat>()
 
     override fun getItemViewType(position: Int): Int {
-        val chat = chatList.get(position)
+        val chat = chatList[position]
         return chat.writer
     }
 
@@ -47,7 +47,7 @@ class ChatAdapter(context: Context): RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val chat = chatList.get(position)
+        val chat = chatList[position]
         when (chat.writer) {
             Chat.USER -> (holder as UserHolder).setChat(chat)
             Chat.ENPHAGO -> (holder as EnphagoHolder).setChat(chat)

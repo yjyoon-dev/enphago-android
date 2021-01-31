@@ -80,9 +80,9 @@ class ChatActivity : AppCompatActivity() {
                     // 단어 학습
                     val roomWordHelper = Room.databaseBuilder(context, RoomWordHelper::class.java, "word").allowMainThreadQueries().build()
                     val wordList: List<Word> = roomWordHelper.roomWordDAO().findWord(word)
-                    if(wordList.isEmpty()) roomWordHelper.roomWordDAO().insert(Word(word.substring(0..0),word))
+                    if(wordList.isEmpty()) roomWordHelper.roomWordDAO().insert(Word(word.substring(0..0),word,false))
 
-                    delay(1000) // 자연스러움을 위한 시간차 딜레이
+                    delay(900) // 자연스러움을 위한 시간차 딜레이
 
                     enphagoWord = getAnswer(word)
 
@@ -125,6 +125,9 @@ class ChatActivity : AppCompatActivity() {
                             enphagoWord = "init"
                             turn-=1
                         }
+
+                        val endWord: List<Word> = roomWordHelper.roomWordDAO().findWord(word)
+                        roomWordHelper.roomWordDAO().update(Word(endWord[0].first,endWord[0].word,true))
                     }
                 }
                 turn+=1
@@ -140,17 +143,20 @@ class ChatActivity : AppCompatActivity() {
         val roomWordHelper = Room.databaseBuilder(context, RoomWordHelper::class.java, "word").allowMainThreadQueries().build()
         val candList: MutableList<Word> = roomWordHelper.roomWordDAO().getWord(tail)
 
-        if (candList.isNotEmpty()) {
-            candList.shuffle()
+        candList.shuffle()
 
+        var candWord: String? = null
+
+        if (candList.isNotEmpty()) {
             for (cand in candList) {
                 if (!checkWord.usedWordSet.contains(cand.word)) {
-                    return cand.word
+                    candWord = cand.word
+                    if(cand.end) return cand.word
                 }
             }
         }
 
-        return null
+        return candWord
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -185,6 +191,11 @@ class ChatActivity : AppCompatActivity() {
                                     adapter.notifyDataSetChanged()
                                     chatRecyclerView.scrollToPosition(adapter.chatList.size - 1)
                                     delay(1000)
+                                }
+                                else{
+                                    val roomWordHelper = Room.databaseBuilder(context, RoomWordHelper::class.java, "word").allowMainThreadQueries().build()
+                                    val endWord: List<Word> = roomWordHelper.roomWordDAO().findWord(enphagoWord!!)
+                                    roomWordHelper.roomWordDAO().update(Word(endWord[0].first,endWord[0].word,true))
                                 }
 
                                 finishGame(0)

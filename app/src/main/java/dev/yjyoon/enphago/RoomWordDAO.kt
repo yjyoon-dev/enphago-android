@@ -1,10 +1,7 @@
 package dev.yjyoon.enphago
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
+import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
 
 @Dao
 interface RoomWordDAO {
@@ -19,6 +16,9 @@ interface RoomWordDAO {
 
     @Insert(onConflict = REPLACE)
     fun insert(word: Word)
+
+    @Update
+    fun update(word:Word)
 
     @Delete
     fun delete(word: Word)

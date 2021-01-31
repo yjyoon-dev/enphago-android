@@ -37,7 +37,7 @@ class SplashActivity : AppCompatActivity() {
                 val assetManager: AssetManager = resources.assets
                 val inputStream: InputStream = assetManager.open("word_list.txt")
                 inputStream.bufferedReader().readLines().forEach {
-                    val word = Word(it.substring(0..0),it)
+                    val word = Word(it.substring(0..0),it,false)
                     roomWordHelper.roomWordDAO().insert(word)
                     wordLoadProgressBar.incrementProgressBy(2)
                 }

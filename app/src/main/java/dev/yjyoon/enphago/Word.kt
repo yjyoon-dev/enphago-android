@@ -6,18 +6,19 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "word")
 class Word {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo
-    var no: Int? = null
+    var word: String
 
     @ColumnInfo
-    var first: String? = null
+    var first: String
 
     @ColumnInfo
-    var word: String? = null
+    var end: Boolean = false
 
-    constructor(first: String, word: String){
+    constructor(first: String, word: String, end:Boolean){
         this.first = first
         this.word = word
+        this.end = end
     }
 }
