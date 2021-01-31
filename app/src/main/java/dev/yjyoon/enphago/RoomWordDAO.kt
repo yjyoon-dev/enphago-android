@@ -14,6 +14,9 @@ interface RoomWordDAO {
     @Query("SELECT * FROM word")
     fun getAll(): List<Word>
 
+    @Query("SELECT * FROM word WHERE word = :word")
+    fun findWord(word: String): List<Word>
+
     @Insert(onConflict = REPLACE)
     fun insert(word: Word)
 

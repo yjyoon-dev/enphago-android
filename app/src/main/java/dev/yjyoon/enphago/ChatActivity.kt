@@ -76,6 +76,12 @@ class ChatActivity : AppCompatActivity() {
 
                 // 엔파고 반격 시작
                 if(successed) {
+
+                    // 단어 학습
+                    val roomWordHelper = Room.databaseBuilder(context, RoomWordHelper::class.java, "word").allowMainThreadQueries().build()
+                    val wordList: List<Word> = roomWordHelper.roomWordDAO().findWord(word)
+                    if(wordList.isEmpty()) roomWordHelper.roomWordDAO().insert(Word(word.substring(0..0),word))
+
                     delay(1000) // 자연스러움을 위한 시간차 딜레이
 
                     enphagoWord = getAnswer(word)
@@ -131,10 +137,7 @@ class ChatActivity : AppCompatActivity() {
         var tail = word.substring(word.length - 1)
         if(checkWord.convertMap.containsKey(tail)) tail = checkWord.convertMap.get(tail)!!
 
-        val roomWordHelper = Room.databaseBuilder(context, RoomWordHelper::class.java, "word")
-                .allowMainThreadQueries()
-                .build()
-
+        val roomWordHelper = Room.databaseBuilder(context, RoomWordHelper::class.java, "word").allowMainThreadQueries().build()
         val candList: MutableList<Word> = roomWordHelper.roomWordDAO().getWord(tail)
 
         if (candList.isNotEmpty()) {

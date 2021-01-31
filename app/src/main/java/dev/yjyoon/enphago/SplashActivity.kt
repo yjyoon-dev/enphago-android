@@ -32,9 +32,7 @@ class SplashActivity : AppCompatActivity() {
             wordLoadText.isVisible = true
 
             CoroutineScope(Dispatchers.IO).launch{
-                val roomWordHelper = Room.databaseBuilder(context, RoomWordHelper::class.java, "word")
-                        .allowMainThreadQueries()
-                        .build()
+                val roomWordHelper = Room.databaseBuilder(context, RoomWordHelper::class.java, "word").allowMainThreadQueries().build()
                 roomWordHelper.roomWordDAO().deleteAll()
                 val assetManager: AssetManager = resources.assets
                 val inputStream: InputStream = assetManager.open("word_list.txt")
