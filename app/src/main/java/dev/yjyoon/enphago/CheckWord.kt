@@ -1,14 +1,9 @@
 package dev.yjyoon.enphago
 
-import android.content.Context
-import android.util.Log
-import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.net.URL
 import javax.xml.parsers.DocumentBuilderFactory
-import org.w3c.dom.Element
-import java.lang.Exception
 
 class CheckWord {
     companion object{
@@ -62,14 +57,14 @@ class CheckWord {
         if(usedWordSet.contains(word)) return ALREADY_USED
 
         try {
-            val isValid: Boolean = GlobalScope.async(Dispatchers.IO) {
+            val isValid: Boolean = withContext(Dispatchers.IO) {
                 val url = baseUrl + apiKey + opt + word
                 val xml = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                    .parse(URL(url).openConnection().getInputStream())
+                        .parse(URL(url).openConnection().getInputStream())
                 val root = xml.documentElement
                 val total = root.getElementsByTagName("total").item(0).textContent.toString()
                 total != "0"
-            }.await()
+            }
 
             if(!isValid) return INVALID_WORD
 
