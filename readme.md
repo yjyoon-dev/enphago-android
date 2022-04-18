@@ -1,6 +1,6 @@
-# Enphago 한글 끝말잇기 AI
+![0](https://user-images.githubusercontent.com/72238126/163879135-032197bf-06a8-431e-ade5-3c003168ec49.png)
 
-![0](/readme/0.png)
+# Enphago 한글 끝말잇기 AI
 
 Enphago 는 한글 끝말잇기 게임 AI 입니다.
 
